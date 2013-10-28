@@ -1,0 +1,25 @@
+<%= form_for(@thing_to_do) do |f| %>
+  <% if @thing_to_do.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@thing_to_do.errors.count, "error") %> prohibited this thing_to_do from being saved:</h2>
+
+      <ul>
+      <% @thing_to_do.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :place_id %><br>
+    <%= f.number_field :place_id %>
+  </div>
+  <div class="field">
+    <%= f.label :age_range %><br>
+    <%= f.text_field :age_range %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

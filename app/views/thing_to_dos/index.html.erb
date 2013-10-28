@@ -1,0 +1,29 @@
+<h1>Listing thing_to_dos</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Place</th>
+      <th>Age range</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @thing_to_dos.each do |thing_to_do| %>
+      <tr>
+        <td><%= thing_to_do.place_id %></td>
+        <td><%= thing_to_do.age_range %></td>
+        <td><%= link_to 'Show', thing_to_do %></td>
+        <td><%= link_to 'Edit', edit_thing_to_do_path(thing_to_do) %></td>
+        <td><%= link_to 'Destroy', thing_to_do, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Thing to do', new_thing_to_do_path %>

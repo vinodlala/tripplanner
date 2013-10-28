@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Place:</strong>
+  <%= @thing_to_do.place_id %>
+</p>
+
+<p>
+  <strong>Age range:</strong>
+  <%= @thing_to_do.age_range %>
+</p>
+
+<%= link_to 'Edit', edit_thing_to_do_path(@thing_to_do) %> |
+<%= link_to 'Back', thing_to_dos_path %>
