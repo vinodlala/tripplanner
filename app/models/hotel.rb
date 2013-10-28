@@ -5,7 +5,7 @@ class Hotel < ActiveRecord::Base
     self.all.map do |i|
       pl = i.place
     {
-    :name => i.name,
+    :name => pl.name,
     :address => pl.address,
     :city => pl.city,
     :state => pl.state,
