@@ -1,4 +1,5 @@
 Tripplanner::Application.routes.draw do
+  get "pages/index"
   resources :restaurants
 
   resources :thing_to_dos
