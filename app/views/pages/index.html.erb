@@ -1,5 +1,84 @@
-<h1>Pages#index</h1>
-<p>Find me in app/views/pages/index.html.erb</p>
+<div class="container">
+
+  <div id="Days" class="col-md-3">
+    <div class="btn-group">
+      <button type="button" class="btn btn-default">Day 1</button>
+      <button type="button" class="btn btn-default">Day 2</button>
+      <button type="button" class="btn btn-default">Day 3</button>
+    </div>
+    <div class="btn-group">
+      <button type="button" class="btn btn-default">+Add Day</button>
+    </div>
+  </div>
+
+  <div id="Hotels" class="col-md-3">
+    <div>
+      <h2>Hotels</h2>
+      <select class="form-control" id="hotels">
+        <option>Choose a Hotel</option>
+      </select>
+      <button type="button" class="btn btn-primary">Add</button>
+    </div>
+  </div>
+  <div id="ThingsToDo" class="col-md-3">
+    <div>
+      <h2>Things to Do</h2>
+      <select class="form-control" id="thingstodo">
+        <option>Choose a Thing To Do</option>
+      </select>
+      <button type="button" class="btn btn-primary">Add</button>
+    </div>
+  </div>
+  <div id="Restaurants" class="col-md-3">
+    <div>
+      <h2>Restaurants</h2>
+      <select class="form-control" id="restaurants">
+        <option>Choose a Restaurant</option>
+      </select>
+      <button type="button" class="btn btn-primary">Add</button>
+    </div>
+  </div>
+
+</div><!-- container -->
+
+<br>
+
+<div class="container">
+  <h1>Plan for Day 1</h1>
+  <h2>Hotel</h2>
+  <h2>Things to Do</h2>
+  <h2>Restaurants</h2>
+</div>
+
+<script>
+var select = document.getElementById("hotels");
+var all_hotels = <%= get_hotels %>;
+for(var i = 0; i < all_hotels.length; i++) {
+  var hotel = all_hotels[i];
+  var element = document.createElement("option");
+  element.textContent = hotel.name;
+  element.value = hotel;
+  select.appendChild(element);
+}
+var select = document.getElementById("thingstodo");
+var all_thingstodo = <%= get_thingstodo %>;
+for(var i = 0; i < all_thingstodo.length; i++) {
+  var thingtodo = all_thingstodo[i];
+  var element = document.createElement("option");
+  element.textContent = thingtodo.name;
+  element.value = thingtodo;
+  select.appendChild(element);
+}
+var select = document.getElementById("restaurants");
+var all_restaurants = <%= get_restaurants %>;
+for(var i = 0; i < all_restaurants.length; i++) {
+  var restaurant = all_restaurants[i];
+  var element = document.createElement("option");
+  element.textContent = restaurant.name;
+  element.value = restaurant;
+  select.appendChild(element);
+}
+</script>
 
 <script>
 var all_hotels = eval('(<%= get_hotels %>)');
