@@ -1,10 +1,10 @@
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
-initialize_gmaps = ->
+initialize_gmaps = (lat, lng)->
 
   # initialize new google maps LatLng object
-  myLatlng = new google.maps.LatLng(40.705786, -74.007672)
+  myLatlng = new google.maps.LatLng(lat, lng)
 
   # set the map options hash
   mapOptions =
@@ -27,5 +27,7 @@ initialize_gmaps = ->
 
   # Add the marker to the map by calling setMap()
   marker.setMap map
+
 $(document).ready ->
-  initialize_gmaps()
+  initialize_gmaps(40.705786, -74.007672)
+
