@@ -14,21 +14,21 @@
     <select class="form-control" id="hotels">
       <option>Choose a Hotel</option>
     </select>
-    <button type="button" class="btn btn-primary">Add</button>
+    <button id="addHotel" type="button" class="btn btn-primary">Add</button>
   </div>
   <div id="ThingsToDo" class="col-md-3">
     <h2 style='margin:0;'>Things to Do</h2>
     <select class="form-control" id="thingstodo">
       <option>Choose a Thing To Do</option>
     </select>
-    <button type="button" class="btn btn-primary">Add</button>
+    <button id="addThingToDo" type="button" class="btn btn-primary">Add</button>
   </div>
   <div id="Restaurants" class="col-md-3">
     <h2 style='margin:0;'>Restaurants</h2>
     <select class="form-control" id="restaurants">
       <option>Choose a Restaurant</option>
     </select>
-    <button type="button" class="btn btn-primary">Add</button>
+    <button id="addRestaurant" type="button" class="btn btn-primary">Add</button>
   </div>
 
 <br>
@@ -36,7 +36,7 @@
 <div id="plans" class="col-md-3">
   <h1>Plan for Day 1</h1>
   <h2>Hotel</h2>
-  <ul id="planned_hotel"></ul>
+  <ul id="planned_hotels"></ul>
   <h2>Things to Do</h2>
   <ul id="planned_things_to_do"></ul>
   <h2>Restaurants</h2>
@@ -47,37 +47,75 @@
 </div>
 
 <script>
+
 var select = document.getElementById("hotels");
 var all_hotels = <%= get_hotels %>;
 for(var i = 0; i < all_hotels.length; i++) {
   var hotel = all_hotels[i];
   var element = document.createElement("option");
   element.textContent = hotel.name;
-  element.value = hotel;
+  element.value = hotel.name;
   select.appendChild(element);
 }
+
 var select = document.getElementById("thingstodo");
 var all_thingstodo = <%= get_thingstodo %>;
 for(var i = 0; i < all_thingstodo.length; i++) {
   var thingtodo = all_thingstodo[i];
   var element = document.createElement("option");
   element.textContent = thingtodo.name;
-  element.value = thingtodo;
+  element.value = thingtodo.name;
   select.appendChild(element);
 }
+
 var select = document.getElementById("restaurants");
 var all_restaurants = <%= get_restaurants %>;
 for(var i = 0; i < all_restaurants.length; i++) {
   var restaurant = all_restaurants[i];
   var element = document.createElement("option");
   element.textContent = restaurant.name;
-  element.value = restaurant;
+  element.value = restaurant.name;
   select.appendChild(element);
 }
+
+$("#addHotel").click(function () {
+  var count = $("#planned_hotels").children().length;
+  if (count == 1) {
+    alert("You can only sleep in ONE hotel.  Please remove your hotel, then add a new one.");
+  } else {
+    var selectedVal = $('select#hotels').val();
+    $('ul#planned_hotels').append('<li>'+selectedVal+' <a class="removeHotel">Remove</a></li>');
+    $(".removeHotel").click(function () {
+      $(this).parent().remove();
+    });
+  }
+});
+
+$("#addThingToDo").click(function () {
+  var selectedVal = $('select#thingstodo').val();
+  $('ul#planned_things_to_do').append('<li>'+selectedVal+' <a class="removeThingToDo">Remove</a></li>');
+  $(".removeThingToDo").click(function () {
+    $(this).parent().remove();
+  });
+});
+
+$("#addRestaurant").click(function () {
+  var count = $("#planned_restaurants").children().length;
+  if (count == 3) {
+    alert("You can only eat in THREE restaurants.  Please remove a restaurant, then add a new one.");
+  } else {
+    var selectedVal = $('select#restaurants').val();
+    $('ul#planned_restaurants').append('<li>'+selectedVal+' <a class="removeRestaurant">Remove</a></li>');
+    $(".removeRestaurant").click(function () {
+    $(this).parent().remove();
+    });
+  }
+});
+
 </script>
 
 <script>
-var all_hotels = eval('(<%= get_hotels %>)');
-var all_restaurants = eval('(<%= get_restaurants %>)');
-var all_thingstodo = eval('(<%= get_thingstodo %>)');
+var all_hotels = <%= get_hotels %>;
+var all_restaurants = <%= get_restaurants %>;
+var all_thingstodo = <%= get_thingstodo %>;
 </script>
