@@ -3,7 +3,7 @@
       <button type="button" class="btn btn-default">Day 1</button>
     </div>
     <div class="btn-group">
-      <button id="addDay" type="button" class="btn btn-default">+Add Day</button>
+      <button id="addDay" type="button" class="btn btn-primary">+Add Day</button>
     </div>
   </div>
 
@@ -46,13 +46,18 @@
 
 <script>
 
+
+var all_hotels = <%= get_hotels %>;
+var all_restaurants = <%= get_restaurants %>;
+var all_thingstodo = <%= get_thingstodo %>;
+
 var select = document.getElementById("hotels");
 var all_hotels = <%= get_hotels %>;
 for(var i = 0; i < all_hotels.length; i++) {
   var hotel = all_hotels[i];
   var element = document.createElement("option");
   element.textContent = hotel.name;
-  element.value = hotel.name;
+  element.value = i;
   select.appendChild(element);
 }
 
@@ -62,7 +67,7 @@ for(var i = 0; i < all_thingstodo.length; i++) {
   var thingtodo = all_thingstodo[i];
   var element = document.createElement("option");
   element.textContent = thingtodo.name;
-  element.value = thingtodo.name;
+  element.value = i;
   select.appendChild(element);
 }
 
@@ -72,7 +77,7 @@ for(var i = 0; i < all_restaurants.length; i++) {
   var restaurant = all_restaurants[i];
   var element = document.createElement("option");
   element.textContent = restaurant.name;
-  element.value = restaurant.name;
+  element.value = i;
   select.appendChild(element);
 }
 
@@ -81,13 +86,15 @@ $("#addHotel").click(function () {
   if (count == 1) {
     alert("You can only sleep in ONE hotel.  Please remove your hotel, then add a new one.");
   } else {
-    var selectedVal = $('select#hotels').val();
-    plannedDays[1][hotel] = selectedVal;
+    var hotelIndex = $('select#hotels').val();
+    plannedDays[1].hotel = hotelIndex;
 //    alert(plannedDays[1][hotel]);
-    $('ul#planned_hotels').append('<li class="makeRemoveAppear">'+selectedVal+' <a class="removeHotel">Remove</a></li>');
-    $(".removeHotel").click(function () {
+    $('ul#planned_hotels').append(
+        "<li class='makeRemoveAppear' data-id="+hotelIndex+">" +all_hotels[hotelIndex].name +
+        ' <a href="#" class="map">Show on Map</a> <a href="#" class="removeItem">Remove</a></li>');
+    $(".removeItem").click(function () {
       $(this).parent().remove();
-      plannedDays[1][hotel] = "";
+      plannedDays[1].hotel = "";
 //    alert(plannedDays[1][hotel]);
     // $(".makeRemoveAppear").hover(function () {
     //   $(this).find(".removeHotel").
@@ -97,9 +104,12 @@ $("#addHotel").click(function () {
 });
 
 $("#addThingToDo").click(function () {
-  var selectedVal = $('select#thingstodo').val();
-  $('ul#planned_things_to_do').append('<li class="makeRemoveAppear">'+selectedVal+' <a class="removeThingToDo">Remove</a></li>');
-  $(".removeThingToDo").click(function () {
+  var thingIndex = $('select#thingstodo').val();
+  $('ul#planned_things_to_do').append(
+    '<li class="makeRemoveAppear" data-id=' + thingIndex + '>' +
+    all_thingstodo[thingIndex].name +
+    ' <a href="#" class="map">Show on Map</a> <a href="#" class="removeItem">Remove</a></li>');
+  $(".removeItem").click(function () {
     $(this).parent().remove();
   });
 });
@@ -109,10 +119,24 @@ $("#addRestaurant").click(function () {
   if (count == 3) {
     alert("You can only eat in THREE restaurants.  Please remove a restaurant, then add a new one.");
   } else {
-    var selectedVal = $('select#restaurants').val();
-    $('ul#planned_restaurants').append('<li class="makeRemoveAppear">'+selectedVal+' <a class="removeRestaurant">Remove</a></li>');
-    $(".removeRestaurant").click(function () {
-    $(this).parent().remove();
+    var restaurantIndex = $('select#restaurants').val();
+    $('ul#planned_restaurants').append(
+      '<li class="makeRemoveAppear" data-id="'+restaurantIndex+ '">' +
+      all_restaurants[restaurantIndex].name +
+      ' <a href="#" class="map">Show on Map</a> <a href="#" class="removeItem">Remove</a></li>');
+    $(".removeItem").click(function () {
+      $(this).parent().remove();
+    });
+    $('#planned_restaurants a.map').click(function(e){
+      e.preventDefault();
+      // var index = parseInt( $(this).parent().data("id"));
+      var index =  $(this).parent().data("id");
+      var restaurant = all_restaurants[index];
+      var locLatLng = new google.maps.LatLng(restaurant.lat, restaurant.lon);
+      move_marker(locLatLng, restaurant.name);
+      if(!map.getBounds().contains(locLatLng)){
+        map.panTo(locLatLng);
+      }
     });
   }
 });
@@ -133,15 +157,9 @@ $("#addDay").click(function () {
 plannedDays = []
 for (var i = 1; i <= 7; i++) {
   plannedDays[i] = {};
-  plannedDays[i][hotel] = "";
-  plannedDays[i][thingsToDo] = [];
-  plannedDays[i][restaurants] = [];
+  plannedDays[i].hotel = "";
+  plannedDays[i].thingsToDo = [];
+  plannedDays[i].restaurants = [];
 }
 
-</script>
-
-<script>
-var all_hotels = <%= get_hotels %>;
-var all_restaurants = <%= get_restaurants %>;
-var all_thingstodo = <%= get_thingstodo %>;
 </script>

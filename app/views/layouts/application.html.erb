@@ -10,7 +10,7 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
+<div id="wrap">
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -32,6 +32,11 @@
     </div>
 
 <%= yield %>
-
+  </div>
+    <div id="footer">
+      <div class="container">
+        <p class="credit">From <a href="https://github.com/vinodlala">Vinod Lala</a> and <a href="https://github.com/tallguy76">Jeffrey Willson</a>.</p>
+      </div>
+    </div>
 </body>
 </html>
