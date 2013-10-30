@@ -68,19 +68,19 @@ def get_all_visits_json
   all_visits.each do |visit|
     case visit.place_type
     when "hotel"
-      hotel = Hotel.where(:place_id => visit.place_id)
+      hotel = Hotel.where(:place_id => visit.place_id).first
       mashed_hash = visit.attributes.
                           merge(visit.place.attributes).
                           merge(hotel.attributes)
       ret_hash[:hotels] << mashed_hash
     when "restaurant"
-      restaurant = Restaurant.where(:place_id => visit.place_id)
+      restaurant = Restaurant.where(:place_id => visit.place_id).first
       mashed_hash = visit.attributes.
                           merge(visit.place.attributes).
                           merge(restaurant.attributes)
       ret_hash[:restaurants] << mashed_hash
     when "thingtodo"
-      thingtodo = ThingToDo.where(:place_id => visit.place_id)
+      thingtodo = ThingToDo.where(:place_id => visit.place_id).first
       mashed_hash = visit.attributes.
                           merge(visit.place.attributes).
                           merge(thingtodo.attributes)
