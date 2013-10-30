@@ -1,13 +1,24 @@
-  <div id="Days" class="col-md-3">
+<div class="col-md-3">
+  <div id="Days" >
     <div id="planned_days" class="btn-group">
-      <button type="button" class="btn btn-default">Day 1</button>
+      <button type="button" class="btn btn-default" id="daybtn1">Day 1</button>
     </div>
+  <p id="dayLimit" class="latent">7 day limit</p>
     <div class="btn-group">
       <button id="addDay" type="button" class="btn btn-primary">+Add Day</button>
     </div>
-
   </div>
 
+<div id="plans" >
+  <h1>Plan for Day 1</h1>
+  <h2>Hotel</h2>
+  <ul id="planned_hotels"></ul>
+  <h2>Things to Do</h2>
+  <ul id="planned_things_to_do"></ul>
+  <h2>Restaurants</h2>
+  <ul id="planned_restaurants"></ul>
+</div>
+</div>
   <div id="Hotels" class="col-md-3">
     <h2 style='margin:0;'>Hotels</h2>
     <select class="form-control item-select" id="hotels">
@@ -32,15 +43,6 @@
 
 <br>
 
-<div id="plans" class="col-md-3">
-  <h1>Plan for Day 1</h1>
-  <h2>Hotel</h2>
-  <ul id="planned_hotels"></ul>
-  <h2>Things to Do</h2>
-  <ul id="planned_things_to_do"></ul>
-  <h2>Restaurants</h2>
-  <ul id="planned_restaurants"></ul>
-</div>
 
 <div id="map-canvas" class="col-md-9">
 </div>
@@ -88,14 +90,13 @@ $("#addHotel").click(function () {
     alert("You can only sleep in ONE hotel.  Please remove your hotel, then add a new one.");
   } else {
     var hotelIndex = $('select#hotels').val();
-    plannedDays[1].hotel = hotelIndex;
-//    alert(plannedDays[1][hotel]);
+    plannedDays[currentDay].hotel = hotelIndex;
     $('ul#planned_hotels').append(
         "<li class='makeRemoveAppear' data-id="+hotelIndex+">" +all_hotels[hotelIndex].name +
         ' <a href="#" class="map">Show on Map</a> <a href="#" class="removeItem">Remove</a></li>');
     $(".removeItem").click(function () {
       $(this).parent().remove();
-      plannedDays[1].hotel = "";
+      plannedDays[currentDay].hotel = "";
 //    alert(plannedDays[1][hotel]);
     // $(".makeRemoveAppear").hover(function () {
     //   $(this).find(".removeHotel").
@@ -164,16 +165,22 @@ $("#addRestaurant").click(function () {
   }
 });
 var currentDay = 1;
+var setDay = function  (day) {
+  currentDay = day;
+  $('#plans h1').html("Plan for Day " + day);
+  $('#planned_days button').removeClass('btn-default').addClass('btn-info');
+  $('#daybtn'+day).removeClass('btn-info').addClass('btn-default');
+}
+$("#daybtn1").click(function () {setDay(1);});
 $("#addDay").click(function () {
   var count = $("#planned_days").children().length;
   var day = count + 1;
   if (count == 7) {
-    alert("You can only have SEVEN days.");
+    $("#dayLimit").css("visibility","visible")
   } else {
-    $('#planned_days').append('<button type="button" class="btn btn-default">Day ' + day + '</button>');
-//    $(".removeRestaurant").click(function () {
-//    $(this).parent().remove();
-//    });
+    $('#planned_days').append($('<button type="button" class="btn btn-default" id="daybtn'+day+'">Day ' + day + '</button>').click(function () {
+      setDay(day);}));
+    setDay(day);
   }
 });
 
