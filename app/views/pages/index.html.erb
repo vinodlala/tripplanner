@@ -100,6 +100,17 @@ $("#addHotel").click(function () {
     //   $(this).find(".removeHotel").
     // })
     });
+    $('#planned_hotels a.map').click(function(e){
+      e.preventDefault();
+      // var index = parseInt( $(this).parent().data("id"));
+      var index =  $(this).parent().data("id");
+      var site = all_hotels[index];
+      var locLatLng = new google.maps.LatLng(site.lat, site.lon);
+      move_marker(locLatLng, site.name);
+      if(!map.getBounds().contains(locLatLng)){
+        map.panTo(locLatLng);
+      }
+    });
   }
 });
 
@@ -112,6 +123,17 @@ $("#addThingToDo").click(function () {
   $(".removeItem").click(function () {
     $(this).parent().remove();
   });
+  $('#planned_things_to_do a.map').click(function(e){
+      e.preventDefault();
+      // var index = parseInt( $(this).parent().data("id"));
+      var index =  $(this).parent().data("id");
+      var site = all_thingstodo[index];
+      var locLatLng = new google.maps.LatLng(site.lat, site.lon);
+      move_marker(locLatLng, site.name);
+      if(!map.getBounds().contains(locLatLng)){
+        map.panTo(locLatLng);
+      }
+    });
 });
 
 $("#addRestaurant").click(function () {
