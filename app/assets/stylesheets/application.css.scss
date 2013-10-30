@@ -16,7 +16,16 @@ $grid-columns: 12;
 $gutter-width: 30px;
 $max-width: 1170px;
 
-$color: #def;
+$color: #f4ffd6;
+$highlight-color: #bef;
+$mid-color: #99e;
+$t-color: #014;
+$shade-color: #54b;
+
+$gill-stack: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+$georgia-stack: Georgia, Cambria, serif;
+$lucida-stack: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+
 
 @mixin clearfix() {
   &:after {
@@ -29,8 +38,10 @@ $color: #def;
 }
 
 body {
-  // background-color: $color;
+  background-color: $color;
+  color: $t-color;
   padding-top: 70px;
+  font-family: $lucida-stack;
 }
 
 .container {
@@ -73,3 +84,47 @@ body {
   }
 }
 
+@for $i from 1 through 6 {
+  h#{$i} {
+    font-family: $georgia-stack;
+  }
+}
+#map-canvas {
+  background-color: #345;
+
+  height: 400px;
+  width: 600px;
+  margin: 40px 7% 0 3%;
+}
+button {
+  background-color: $shade-color;
+}
+.item-select {
+  display: inline-block;
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+.button-primary {
+  display: inline-block;
+}
+.btn-primary {
+  color: $color;
+  background-color: $shade-color;
+  border-color: $t-color;
+}
+.btn-default {
+  color: $t-color;
+  background-color: $mid-color;
+  border-color: $t-color;
+}
+.form-control{
+  color: $t-color;
+  background-color: $highlight-color;
+  border: 1px solid $shade-color;
+}
+.navbar {
+  background-color: $t-color;
+}
+a {
+  color: $shade-color;
+}
