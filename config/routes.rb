@@ -1,4 +1,6 @@
 Tripplanner::Application.routes.draw do
+  get "visits/create"
+  get "visits/destroy"
   get "pages/index"
   resources :restaurants
 
