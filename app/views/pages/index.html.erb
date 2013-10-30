@@ -5,6 +5,7 @@
     <div class="btn-group">
       <button id="addDay" type="button" class="btn btn-primary">+Add Day</button>
     </div>
+
   </div>
 
   <div id="Hotels" class="col-md-3">
@@ -162,7 +163,7 @@ $("#addRestaurant").click(function () {
     });
   }
 });
-
+var currentDay = 1;
 $("#addDay").click(function () {
   var count = $("#planned_days").children().length;
   var day = count + 1;

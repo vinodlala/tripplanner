@@ -99,14 +99,12 @@ body {
 button {
   background-color: $shade-color;
 }
-.item-select {
+.item-select, .btn {
   display: inline-block;
   margin-bottom: 8px;
-  margin-top: 8px;
+  // margin-top: 8px;
 }
-.button-primary {
-  display: inline-block;
-}
+
 .btn-primary {
   color: $color;
   background-color: $shade-color;
