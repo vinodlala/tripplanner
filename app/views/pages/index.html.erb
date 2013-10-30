@@ -84,19 +84,21 @@ $("#addHotel").click(function () {
     var selectedVal = $('select#hotels').val();
     plannedDays[1][hotel] = selectedVal;
 //    alert(plannedDays[1][hotel]);
-    $('ul#planned_hotels').append('<li>'+selectedVal+' <a class="removeHotel">Remove</a></li>');
+    $('ul#planned_hotels').append('<li class="makeRemoveAppear">'+selectedVal+' <a class="removeHotel">Remove</a></li>');
     $(".removeHotel").click(function () {
       $(this).parent().remove();
       plannedDays[1][hotel] = "";
 //    alert(plannedDays[1][hotel]);
-
+    // $(".makeRemoveAppear").hover(function () {
+    //   $(this).find(".removeHotel").
+    // })
     });
   }
 });
 
 $("#addThingToDo").click(function () {
   var selectedVal = $('select#thingstodo').val();
-  $('ul#planned_things_to_do').append('<li>'+selectedVal+' <a class="removeThingToDo">Remove</a></li>');
+  $('ul#planned_things_to_do').append('<li class="makeRemoveAppear">'+selectedVal+' <a class="removeThingToDo">Remove</a></li>');
   $(".removeThingToDo").click(function () {
     $(this).parent().remove();
   });
@@ -108,7 +110,7 @@ $("#addRestaurant").click(function () {
     alert("You can only eat in THREE restaurants.  Please remove a restaurant, then add a new one.");
   } else {
     var selectedVal = $('select#restaurants').val();
-    $('ul#planned_restaurants').append('<li>'+selectedVal+' <a class="removeRestaurant">Remove</a></li>');
+    $('ul#planned_restaurants').append('<li class="makeRemoveAppear">'+selectedVal+' <a class="removeRestaurant">Remove</a></li>');
     $(".removeRestaurant").click(function () {
     $(this).parent().remove();
     });

@@ -17,7 +17,7 @@ $gutter-width: 30px;
 $max-width: 1170px;
 
 $color: #f4ffd6;
-$highlight-color: #bef;
+$highlight-color: #ddf;
 $mid-color: #99e;
 $t-color: #014;
 $shade-color: #54b;
@@ -127,4 +127,10 @@ button {
 }
 a {
   color: $shade-color;
+}
+.makeRemoveAppear:hover a {
+  visibility: visible;
+}
+.makeRemoveAppear a {
+  visibility:hidden;
 }
