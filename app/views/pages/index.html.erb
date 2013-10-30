@@ -12,11 +12,11 @@
 <div id="plans" >
   <h1>Plan for Day 1</h1>
   <h2>Hotel</h2>
-  <ul id="planned_hotels"></ul>
+  <ul class="plans" id="planned_hotels"></ul>
   <h2>Things to Do</h2>
-  <ul id="planned_things_to_do"></ul>
+  <ul class="plans" id="planned_things_to_do"></ul>
   <h2>Restaurants</h2>
-  <ul id="planned_restaurants"></ul>
+  <ul class="plans" id="planned_restaurants"></ul>
 </div>
 </div>
   <div id="Hotels" class="col-md-3">
@@ -83,6 +83,13 @@ for(var i = 0; i < all_restaurants.length; i++) {
   select.appendChild(element);
 }
 
+var listHotel = function(hotelIndex){
+  $('ul#planned_hotels').
+    append(
+      "<li class='makeRemoveAppear' data-id="+
+      hotelIndex+">" +all_hotels[hotelIndex].name +
+      ' <a href="#" class="map">Show on Map</a> <a href="#" class="removeItem">Remove</a></li>');
+};
 $("#addHotel").click(function () {
   var count = $("#planned_hotels").children().length;
   if (count == 1) {
@@ -90,9 +97,7 @@ $("#addHotel").click(function () {
   } else {
     var hotelIndex = $('select#hotels').val();
     plannedDays[currentDay].hotel = hotelIndex;
-    $('ul#planned_hotels').append(
-        "<li class='makeRemoveAppear' data-id="+hotelIndex+">" +all_hotels[hotelIndex].name +
-        ' <a href="#" class="map">Show on Map</a> <a href="#" class="removeItem">Remove</a></li>');
+    listHotel(hotelIndex);
     $(".removeItem").click(function () {
       $(this).parent().remove();
       plannedDays[currentDay].hotel = "";
@@ -114,13 +119,15 @@ $("#addHotel").click(function () {
     });
   }
 });
-
-$("#addThingToDo").click(function () {
-  var thingIndex = $('select#thingstodo').val();
+var listThingToDo = function(thingIndex){
   $('ul#planned_things_to_do').append(
     '<li class="makeRemoveAppear" data-id=' + thingIndex + '>' +
     all_thingstodo[thingIndex].name +
     ' <a href="#" class="map">Show on Map</a> <a href="#" class="removeItem">Remove</a></li>');
+};
+$("#addThingToDo").click(function () {
+  var thingIndex = $('select#thingstodo').val();
+  listThingToDo(thingIndex);
   $(".removeItem").click(function () {
     $(this).parent().remove();
   });
@@ -137,16 +144,20 @@ $("#addThingToDo").click(function () {
     });
 });
 
+var listRestaurant = function(restaurantIndex){
+  $('ul#planned_restaurants').append(
+      '<li class="makeRemoveAppear" data-id="'+restaurantIndex+ '">' +
+      all_restaurants[restaurantIndex].name +
+      ' <a href="#" class="map">Show on Map</a> <a href="#" class="removeItem">Remove</a></li>');
+};
+
 $("#addRestaurant").click(function () {
   var count = $("#planned_restaurants").children().length;
   if (count == 3) {
     alert("You can only eat in THREE restaurants.  Please remove a restaurant, then add a new one.");
   } else {
     var restaurantIndex = $('select#restaurants').val();
-    $('ul#planned_restaurants').append(
-      '<li class="makeRemoveAppear" data-id="'+restaurantIndex+ '">' +
-      all_restaurants[restaurantIndex].name +
-      ' <a href="#" class="map">Show on Map</a> <a href="#" class="removeItem">Remove</a></li>');
+    listRestaurant(restaurantIndex);
     $(".removeItem").click(function () {
       $(this).parent().remove();
     });
@@ -169,7 +180,10 @@ var setDay = function  (day) {
   $('#plans h1').html("Plan for Day " + day);
   $('#planned_days button').removeClass('btn-default').addClass('btn-info');
   $('#daybtn'+day).removeClass('btn-info').addClass('btn-default');
-}
+  $('ul.plans li').remove();
+
+};
+
 $("#daybtn1").click(function () {setDay(1);});
 $("#addDay").click(function () {
   var count = $("#planned_days").children().length;
