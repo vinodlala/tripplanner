@@ -1,4 +1,6 @@
 Tripplanner::Application.routes.draw do
+  get "visits/create"
+  get "visits/destroy"
   get "pages/index"
   resources :restaurants
 
@@ -7,6 +9,7 @@ Tripplanner::Application.routes.draw do
   resources :hotels
 
   resources :places
+  resources :visits, only: [:create, :destroy]
   root 'pages#index'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

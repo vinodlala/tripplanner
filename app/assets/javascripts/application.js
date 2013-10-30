@@ -61,3 +61,23 @@ var move_marker = function (myLatlng,name) {
 $(document).ready(function() {
   return initialize_gmaps(40.705786, -74.007672, "Fullstack Academy");
 });
+
+
+function writeVisitToServer(place_id, current_day, type_of_place, visit_order) {
+  var post_data = {
+    place_id: place_id,
+    day_number: current_day,
+    place_type: type_of_place,
+    visit_order: visit_order
+  };
+
+  // this callback function will be called if the request succeeds.
+  // the response is passed into this callback function as responseData
+
+  var post_callback = function (responseData) {
+    // responseData.visit_id will be the id of database Visit object
+  };
+
+  // jQuery Ajax call
+  $.post( "/visits", post_data, post_callback);
+}

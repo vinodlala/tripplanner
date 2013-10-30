@@ -4,17 +4,18 @@ class Hotel < ActiveRecord::Base
   def self.get_all
     self.all.map do |i|
       pl = i.place
-    {
-    :name => pl.name,
-    :address => pl.address,
-    :city => pl.city,
-    :state => pl.state,
-    :phone => pl.phone,
-    :lat => pl.lat,
-    :lon => pl.lon,
-    :num_stars => i.num_stars,
-    :amenities => i.amenities
-    }
+      {
+        :place_id => pl.id,
+        :name => pl.name,
+        :address => pl.address,
+        :city => pl.city,
+        :state => pl.state,
+        :phone => pl.phone,
+        :lat => pl.lat,
+        :lon => pl.lon,
+        :num_stars => i.num_stars,
+        :amenities => i.amenities
+      }
     end
   end
 

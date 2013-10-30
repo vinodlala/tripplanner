@@ -1,8 +1,7 @@
-class Restaurant < ActiveRecord::Base
+class Visit < ActiveRecord::Base
   belongs_to :place
 
   def self.get_all
-    # @restaurants = Restaurant.all
     self.all.map do |i|
       pl = i.place
       {
@@ -14,8 +13,9 @@ class Restaurant < ActiveRecord::Base
         :phone => pl.phone,
         :lat => pl.lat,
         :lon => pl.lon,
-        :cuisine => i.cuisine,
-        :price => i.price
+        :day_number => i.day_number,
+        :place_type => i.place_type,
+        :visit_order => i.visit_order
       }
     end
   end
