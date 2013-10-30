@@ -6,6 +6,7 @@ class Restaurant < ActiveRecord::Base
     self.all.map do |i|
       pl = i.place
       {
+        :place_id => pl.id,
         :name => pl.name,
         :address => pl.address,
         :city => pl.city,
