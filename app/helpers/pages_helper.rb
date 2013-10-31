@@ -75,6 +75,15 @@ def get_all_visits_by_day
   ret_hash = {}
   visits_by_days << ret_hash
 
+# if there are no visits at all, return an empty hash for Day 1 anyway
+  if all_days.length == 0
+    ret_hash = {
+      :hotels => [],
+      :restaurants => [],
+      :thingstodo => []
+    }
+  end
+
   all_days.each do |result|
     day = result.day
     day_visits = Visit.includes(:place).where(:day_number => day.to_i)
