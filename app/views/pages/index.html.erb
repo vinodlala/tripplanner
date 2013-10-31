@@ -1,7 +1,6 @@
 <div class="col-md-3">
   <div id="Days" >
     <div id="planned_days" class="btn-group">
-      <button type="button" class="btn btn-default" id="daybtn1">Day 1</button>
     </div>
   <p id="dayLimit" class="latent">7 day limit</p>
     <div class="btn-group">
@@ -50,28 +49,58 @@
 <script>
 
 
-var plannedDays = <%= get_all_visits_by_day %>
-// var plannedDays = [undefined, {hotels: [], restaurants: [], thingstodo: []}];
+// var plannedDays = < % = get_all_visits_by_day %>
+var plannedDays = [undefined, {hotels: [], restaurants: [], thingstodo: []}];
+
+var countDays = 0;
 var addDay = function () {
-  var count = $("#planned_days").children().length;
-  var day = count + 1;
-  if (count === 7) {
-    $("#dayLimit").css("visibility","visible")
+  var day = countDays + 1;
+  if (countDays === 7) {
+    $("#dayLimit").css("visibility", "visible")
   } else {
+    plannedDays[day] = plannedDays[day] || {hotels: [], restaurants: [], thingstodo: []};
     $('#planned_days').append($('<button type="button" class="btn btn-default" id="daybtn' + day + '">Day ' + day + '</button>').click(
         function () {
           setDay(day);
         }));
-
+    countDays = day;
   }
-}
-var countDays = 0;
+};
+var setDay = function(){
+  var currentDay = 1;
+  return function (day) {
+    if(typeof day !== "number"){
+      return currentDay;
+    } else {
+    currentDay = day;
+      $('#plans h1').html("Plan for Day " + day);
+      $('#planned_days button').removeClass('btn-default').addClass('btn-info');
+      $('#daybtn'+day).removeClass('btn-info').addClass('btn-default');
+      $('ul.plans li').remove();
+      var hotels = plannedDays[day].hotels;
+      for (var i = 0; i < hotels.length; i++) {
+        listHotel(hotels[i]);
+      };
+      var restaurants = plannedDays[day].restaurants;
+      for (var i = 0; i < restaurants.length; i++) {
+        listRestaurant(restaurants[i]);
+      };
+      var thingstodo = plannedDays[day].thingstodo;
+      for (var i = 0; i < hotels.thingstodo; i++) {
+        listThingToDo(thingstodo[i]);
+      };
+    }
+  };
+}();
+
+
 addDay();
 for (var i = 2; i < plannedDays.length; i++) {
   addDay();
+  alert("made day i= " + i + "; countDays = "+ countDays);
 }
 setDay(1);
-if(countDays != 1 && countDays != plannedDays.length -1){
+if(countDays != 1 && countDays != plannedDays.length - 1){
   alert("Trip load error: day number mismatch")
 }
 
@@ -90,8 +119,7 @@ for(var i = 0; i < hotels_json.length; i++) {
 var select = document.getElementById("thingstodo");
 var thingstodo_json = <%= get_thingstodo %>;
 var thingstodo = {};
-var
-for(var i = 0; i < all_thingstodo.length; i++) {
+for(var i = 0; i < thingstodo_json.length; i++) {
   var thingtodo = thingstodo_json[i];
   thingstodo["t"+thingtodo.id] = thingtodo;
   var element = document.createElement("option");
@@ -125,15 +153,11 @@ $("#addHotel").click(function () {
     alert("You can only sleep in ONE hotel.  Please remove your hotel, then add a new one.");
   } else {
     var hotelId = $('select#hotels').val();
-    plannedDays[currentDay].hotels.push(hotels["h"+ hotelId]);
+    plannedDays[setDay()].hotels.push(hotels["h"+ hotelId]);
     listHotel(hotelId);
     $(".removeItem").click(function () {
       $(this).parent().remove();
-      plannedDays[currentDay].hotels = [];
-//    alert(plannedDays[1][hotel]);
-    // $(".makeRemoveAppear").hover(function () {
-    //   $(this).find(".removeHotel").
-    // })
+      plannedDays[setDay()].hotels = [];
     });
     $('#planned_hotels a.map').click(function(e){
       e.preventDefault();
@@ -148,7 +172,7 @@ $("#addHotel").click(function () {
     });
   }
 });
-var listThingToDo = function(thingId{
+var listThingToDo = function(thingId){
   $('ul#planned_things_to_do').append(
     '<li class="makeRemoveAppear" data-id=' + thingId+ '>' +
     thingstodo["t" + thingId].name +
@@ -204,32 +228,7 @@ $("#addRestaurant").click(function () {
   }
 });
 
-var setDay = function(){
-  var currentDay = 1;
-  return function (day) {
-    if(typeof day === "number"){
-      return currentDay;
-    } else {
-    currentDay = day;
-      $('#plans h1').html("Plan for Day " + day);
-      $('#planned_days button').removeClass('btn-default').addClass('btn-info');
-      $('#daybtn'+day).removeClass('btn-info').addClass('btn-default');
-      $('ul.plans li').remove();
-      var hotels = plannedDays[day].hotels;
-      for (var i = 0; i < hotels.length; i++) {
-        listHotel(hotels[i]);
-      };
-      var restaurants = plannedDays[day].restaurants;
-      for (var i = 0; i < restaurants.length; i++) {
-        listRestaurant(restaurants[i]);
-      };
-      var thingstodo = plannedDays[day].thingstodo;
-      for (var i = 0; i < hotels.thingstodo; i++) {
-        listThingToDo(thingstodo[i]);
-      };
-    }
-  };
-}();
+
 $("#daybtn1").click(function () {setDay(1);});
 
 
