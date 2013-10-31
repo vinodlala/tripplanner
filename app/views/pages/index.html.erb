@@ -52,11 +52,22 @@
 
 
 var all_visits = <%= get_all_visits_json %>;
+var plannedDays
+for (var i = 1; i <= 7; i++) {
+  plannedDays[i] = {};
+  plannedDays[i].hotel = "";
+  plannedDays[i].thingsToDo = [];
+  plannedDays[i].restaurants = [];
+}
+plannedDays = sortDays(all_visits)
+
 
 var select = document.getElementById("hotels");
-var all_hotels = <%= get_hotels %>;
+var hotels_json = <%= get_hotels %>;
+var hotels = {}
 for(var i = 0; i < all_hotels.length; i++) {
-  var hotel = all_hotels[i];
+  var hotel = hotels_json[i];
+  hotels["h"+hotel.id] = hotel;
   var element = document.createElement("option");
   element.textContent = hotel.name;
   element.value = i;
@@ -64,9 +75,12 @@ for(var i = 0; i < all_hotels.length; i++) {
 }
 
 var select = document.getElementById("thingstodo");
-var all_thingstodo = <%= get_thingstodo %>;
+var thingstodo_json = <%= get_thingstodo %>;
+var thingstodo = {};
+var
 for(var i = 0; i < all_thingstodo.length; i++) {
-  var thingtodo = all_thingstodo[i];
+  var thingtodo = thingstodo_json[i];
+  thingstodo["t"+thingtodo.id] = thingtodo;
   var element = document.createElement("option");
   element.textContent = thingtodo.name;
   element.value = i;
@@ -83,11 +97,11 @@ for(var i = 0; i < all_restaurants.length; i++) {
   select.appendChild(element);
 }
 
-var listHotel = function(hotelIndex){
+var listHotel = function(hotelId){
   $('ul#planned_hotels').
     append(
       "<li class='makeRemoveAppear' data-id="+
-      hotelIndex+">" +all_hotels[hotelIndex].name +
+      hotelId+">" +hotels["h"+hotelId].name +
       ' <a href="#" class="map">Show on Map</a> <a href="#" class="removeItem">Remove</a></li>');
 };
 $("#addHotel").click(function () {
@@ -174,19 +188,25 @@ $("#addRestaurant").click(function () {
     });
   }
 });
-var currentDay = 1;
-var setDay = function  (day) {
-  currentDay = day;
-  $('#plans h1').html("Plan for Day " + day);
-  $('#planned_days button').removeClass('btn-default').addClass('btn-info');
-  $('#daybtn'+day).removeClass('btn-info').addClass('btn-default');
-  $('ul.plans li').remove();
 
-};
-
+var setDay = function(){
+  var currentDay = 1;
+  return function (day) {
+    if(typeof day === "number"){
+      return currentDay;
+    } else {
+    currentDay = day;
+      $('#plans h1').html("Plan for Day " + day);
+      $('#planned_days button').removeClass('btn-default').addClass('btn-info');
+      $('#daybtn'+day).removeClass('btn-info').addClass('btn-default');
+      $('ul.plans li').remove();
+    }
+  };
+}();
 $("#daybtn1").click(function () {setDay(1);});
-$("#addDay").click(function () {
-  var count = $("#planned_days").children().length;
+
+var addDay = function(){
+    var count = $("#planned_days").children().length;
   var day = count + 1;
   if (count == 7) {
     $("#dayLimit").css("visibility","visible")
@@ -195,14 +215,11 @@ $("#addDay").click(function () {
       setDay(day);}));
     setDay(day);
   }
+}
+$("#addDay").click(function () {
+  addDay();
 });
 
-plannedDays = []
-for (var i = 1; i <= 7; i++) {
-  plannedDays[i] = {};
-  plannedDays[i].hotel = "";
-  plannedDays[i].thingsToDo = [];
-  plannedDays[i].restaurants = [];
-}
+
 
 </script>
