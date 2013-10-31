@@ -50,8 +50,8 @@
 <script>
 
 
-// var plannedDays = < % = get_all_visits_by_day %>
-var plannedDays = [undefined, {hotels: [], restaurants: [], thingstodo: []}];
+var plannedDays = <%= get_all_visits_by_day %>
+// var plannedDays = [undefined, {hotels: [], restaurants: [], thingstodo: []}];
 var addDay = function () {
   var count = $("#planned_days").children().length;
   var day = count + 1;
