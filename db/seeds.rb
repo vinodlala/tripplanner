@@ -145,3 +145,29 @@ thingtodo = ThingToDo.create(place_id: place.id, age_range: "All")
 
 place = Place.create(name: "Strand Bookstore", address: "828 Broadway", city: "New York", state: "NY", phone: "123-456-7890", lat: 40.733274, lon: -73.990870)
 thingtodo = ThingToDo.create(place_id: place.id, age_range: "All")
+
+# Vinod's test data for visits
+# day 1 hotel
+visit = Visit.create(place_id: 1, day_number: 1, place_type: "hotel", visit_order: 1)
+
+# day 2 hotel
+visit = Visit.create(place_id: 2, day_number: 2, place_type: "hotel", visit_order: 1)
+
+# day 1 restaurants
+visit = Visit.create(place_id: 16, day_number: 1, place_type: "restaurant", visit_order: 1)
+visit = Visit.create(place_id: 17, day_number: 1, place_type: "restaurant", visit_order: 1)
+visit = Visit.create(place_id: 20, day_number: 1, place_type: "restaurant", visit_order: 1)
+
+# day 2 restaurants
+visit = Visit.create(place_id: 21, day_number: 2, place_type: "restaurant", visit_order: 1)
+
+# day 1 things to do
+visit = Visit.create(place_id: 31, day_number: 1, place_type: "thingtodo", visit_order: 1)
+visit = Visit.create(place_id: 32, day_number: 1, place_type: "thingtodo", visit_order: 1)
+visit = Visit.create(place_id: 33, day_number: 1, place_type: "thingtodo", visit_order: 1)
+
+# day 2 things to do
+visit = Visit.create(place_id: 34, day_number: 2, place_type: "thingtodo", visit_order: 1)
+visit = Visit.create(place_id: 35, day_number: 2, place_type: "thingtodo", visit_order: 1)
+visit = Visit.create(place_id: 36, day_number: 2, place_type: "thingtodo", visit_order: 1)
+visit = Visit.create(place_id: 37, day_number: 2, place_type: "thingtodo", visit_order: 1)
